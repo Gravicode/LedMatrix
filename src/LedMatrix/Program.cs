@@ -19,7 +19,7 @@ namespace LedMatrix
         static void Main()
         {
             rnd = new Random();
-            var pin = GpioController.GetDefault().OpenPin(SC20260.GpioPin.PA13);
+            var pin = GpioController.GetDefault().OpenPin(SC13048.GpioPin.PA3);
             screen = new LedMatrix(pin, cols, rows);
             string[] words = { "THIS", "IS","A", "PLACE", "OF", "THE", "CHAMP"};
             string[] words2 = { "READ", "QURAN", "ALL", "THE", "TIME" };
