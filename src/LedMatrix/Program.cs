@@ -19,12 +19,28 @@ namespace LedMatrix
         static void Main()
         {
             rnd = new Random();
-            var pin = GpioController.GetDefault().OpenPin(SC20260.GpioPin.PA13);
+            var pin = GpioController.GetDefault().OpenPin(SC13048.GpioPin.PA3);
+            var led = GpioController.GetDefault().OpenPin(SC13048.GpioPin.PA8);
+            led.SetDriveMode(GpioPinDriveMode.Output);
             screen = new LedMatrix(pin, cols, rows);
-            string[] words = { "THIS", "IS","A", "PLACE", "OF", "THE", "CHAMP"};
+
+            Thread th2 = new Thread(new ThreadStart(Animation));
+            th2.Start();
+            while (true)
+            {
+                led.Write(GpioPinValue.High);
+                Thread.Sleep(200);
+                led.Write(GpioPinValue.Low);
+                Thread.Sleep(200);
+            }
+        }
+
+        static void Animation()
+        {
+            string[] words = { "THIS", "IS", "A", "PLACE", "OF", "THE", "CHAMP" };
             string[] words2 = { "READ", "QURAN", "ALL", "THE", "TIME" };
             string[] words3 = { "SALAT", "ON", "TIME", };
-            string[] words4 = { "GOD", "WILL", "LOVE","YOU" };
+            string[] words4 = { "GOD", "WILL", "LOVE", "YOU" };
             while (true)
             {
                 CountDownAnimation(0, 100, 1);
@@ -37,9 +53,8 @@ namespace LedMatrix
                 LineAnimation();
                 CharAnimation(words4);
                 LineAnimation2();
-                BallAnimation(500);
+                BallAnimation(200);
             }
-
         }
         static void BrickAnimation(int Moves=16*4,int Delay=100)
         {
