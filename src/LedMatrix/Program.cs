@@ -19,7 +19,7 @@ namespace LedMatrix
         static void Main()
         {
             rnd = new Random();
-            var pin = GpioController.GetDefault().OpenPin(SC13048.GpioPin.PA3);
+            var pin = GpioController.GetDefault().OpenPin(SC13048.GpioPin.PA9);
             var led = GpioController.GetDefault().OpenPin(SC13048.GpioPin.PA8);
             led.SetDriveMode(GpioPinDriveMode.Output);
             screen = new LedMatrix(pin, cols, rows);
@@ -37,13 +37,19 @@ namespace LedMatrix
 
         static void Animation()
         {
-            string[] words = { "THIS", "IS", "A", "PLACE", "OF", "THE", "CHAMP" };
-            string[] words2 = { "READ", "QURAN", "ALL", "THE", "TIME" };
-            string[] words3 = { "SALAT", "ON", "TIME", };
-            string[] words4 = { "GOD", "WILL", "LOVE", "YOU" };
+            //string[] words = { "THIS", "IS", "A", "PLACE", "OF", "THE", "CHAMP" };
+            //string[] words2 = { "READ", "QURAN", "ALL", "THE", "TIME" };
+            //string[] words3 = { "SALAT", "ON", "TIME", };
+            //string[] words4 = { "GOD", "WILL", "LOVE", "YOU" };
+            string[] words = {  "WE","ARE", "HERE", "AT", "BMSPACE", "2023", "BGR" };
+            string[] words2 = { "THIS", "APP", "RUN", "ON", "TINY", "CHIP" };
+            string[] words3 = { "COME", "AND", "JOIN", "US" };
+            string[] words4 = { "BMC", "BOGOR", "MAKER", "CLUB" };
             while (true)
             {
                 CountDownAnimation(0, 100, 1);
+                RunningTextAnimation("Hello Makers, what do you want to build today ?");
+                RunningTextAnimation("it's great day to make something awesome, right ?");
                 BrickAnimation();
                 CharAnimation(words);
                 LineAnimation();
@@ -54,6 +60,26 @@ namespace LedMatrix
                 CharAnimation(words4);
                 LineAnimation2();
                 BallAnimation(200);
+            }
+        }
+        static void RunningTextAnimation(string Words, int Delay = 50, int Iterate = 2)
+        {
+            Random rnd = new Random();
+            screen.Clear();
+            var col = LedMatrix.ColorFromRgb(0, 20, 50);
+            var WidthBlock = 6;
+            var TextWidth = Words.Length * WidthBlock;
+            for (var i = 0; i < Iterate; i++)
+            {
+                col = LedMatrix.ColorFromRgb((byte)rnd.Next(255), (byte)rnd.Next(255), (byte)rnd.Next(255));
+                for (var Ax = 0; Ax + TextWidth >= 0; Ax -= WidthBlock)
+                {
+                    //var statement = string.Empty;
+                    screen.Clear();
+                    screen.DrawString(Words, col, Ax, 0);
+                    screen.Flush();
+                    Thread.Sleep(Delay);
+                }
             }
         }
         static void BrickAnimation(int Moves=16*4,int Delay=100)
