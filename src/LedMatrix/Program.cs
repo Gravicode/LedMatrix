@@ -19,8 +19,8 @@ namespace LedMatrix
         static void Main()
         {
             rnd = new Random();
-            var pin = GpioController.GetDefault().OpenPin(SC13048.GpioPin.PA9);
-            var led = GpioController.GetDefault().OpenPin(SC13048.GpioPin.PA8);
+            var pin = GpioController.GetDefault().OpenPin(SC20100.GpioPin.PA8);
+            var led = GpioController.GetDefault().OpenPin(SC20100.GpioPin.PE11);
             led.SetDriveMode(GpioPinDriveMode.Output);
             screen = new LedMatrix(pin, cols, rows);
 
@@ -48,8 +48,8 @@ namespace LedMatrix
             while (true)
             {
                 CountDownAnimation(0, 100, 1);
-                RunningTextAnimation("Hello Makers, what do you want to build today ?");
-                RunningTextAnimation("it's great day to make something awesome, right ?");
+                RunningTextAnimation("HELLO MAKERS, WHAT DO YOU WANT TO BUILD TODAY ?");
+                RunningTextAnimation("IT'S GREAT DAY TO MAKE SOMETHING AWESOME, RIGHT ?");
                 BrickAnimation();
                 CharAnimation(words);
                 LineAnimation();
@@ -60,9 +60,10 @@ namespace LedMatrix
                 CharAnimation(words4);
                 LineAnimation2();
                 BallAnimation(200);
+                RunningTextAnimation("SEE YOU ON THE TOP, CHAMPION !!");
             }
         }
-        static void RunningTextAnimation(string Words, int Delay = 50, int Iterate = 2)
+        static void RunningTextAnimation(string Words, int Delay = 100, int Iterate = 2)
         {
             Random rnd = new Random();
             screen.Clear();
@@ -72,7 +73,7 @@ namespace LedMatrix
             for (var i = 0; i < Iterate; i++)
             {
                 col = LedMatrix.ColorFromRgb((byte)rnd.Next(255), (byte)rnd.Next(255), (byte)rnd.Next(255));
-                for (var Ax = 0; Ax + TextWidth >= 0; Ax -= WidthBlock)
+                for (var Ax = 0; Ax + TextWidth >= 0; Ax -= WidthBlock/2)
                 {
                     //var statement = string.Empty;
                     screen.Clear();
